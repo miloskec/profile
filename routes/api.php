@@ -10,3 +10,7 @@ Route::middleware('api')->group(function () {
     Route::get('/profile/admin', [ProfileController::class, 'admin']);
     Route::get('/profile/{userId}', [ProfileController::class, 'getProfileById']);
 });
+
+Route::get('/health', function () {
+    return response()->json(['status' => 'OK'], 200);
+});
