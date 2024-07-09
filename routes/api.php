@@ -2,8 +2,8 @@
 
 // routes/api.php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Route;
 
 Route::middleware('api')->group(function () {
     Route::get('/profile', [ProfileController::class, 'profile']);

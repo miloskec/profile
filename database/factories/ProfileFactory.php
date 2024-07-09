@@ -21,7 +21,7 @@ class ProfileFactory extends Factory
             'address' => fake()->address(),
             'phone_number' => fake()->phoneNumber(),
             'birthdate' => fake()->date(),
-            'bio' => fake()->sentence()
+            'bio' => fake()->sentence(),
         ];
     }
 }

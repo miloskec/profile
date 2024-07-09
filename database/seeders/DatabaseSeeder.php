@@ -13,10 +13,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         Profile::factory()->create([
-            'user_id' => 1
+            'user_id' => 1,
         ]);
         Profile::factory()->create([
-            'user_id' => 2
+            'user_id' => 2,
         ]);
         Profile::factory(8)->create();
     }

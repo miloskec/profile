@@ -17,11 +17,11 @@ class ProfileService
     public function getUserByToken(string $token, int $userId)
     {
         return $this->client->post("{$this->authServiceUrl}/get-user-by-id-and-verify-jwt", [
-            'json' => ['token' => $token, 'user_id' => $userId]
+            'json' => ['token' => $token, 'user_id' => $userId],
         ]);
     }
 
-    public function getProfile(string $userId): Profile
+    public function getProfile(int $userId): Profile
     {
         return Profile::where('user_id', $userId)->firstOrFail();
     }
