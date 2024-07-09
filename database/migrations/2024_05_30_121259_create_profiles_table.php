@@ -17,13 +17,13 @@ return new class extends Migration
              * THIS SHOULD BE INCLUDED IN THE USER MODEL EVEN AS REDUNDANT FIELDS
              * IN THAT CASE WE DONT NEED TO MAKE EXTRA REQUEST(S) TO THE AUTH* SERVICE
              * FOR EXAMPLE: LIST OF PROFILES AND GETTING DETAILS ONE BY ONE...
-             * 
+             *
              * $table->string('username');
              * $table->string('full_name');
              * $table->string('email')->unique();
-             * 
+             *
              * BUT IN OUR CASE WE WILL USE REQUESTS TO THE AUTH* SERVICE TO GET THE USER DETAILS
-            */
+             */
             $table->bigInteger('user_id')->unsigned();
             $table->string('address', 255)->nullable();
             $table->string('phone_number', 35)->nullable();

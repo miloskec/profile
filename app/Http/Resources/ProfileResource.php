@@ -21,9 +21,9 @@ class ProfileResource extends BaseResource
 
         return [
             'id' => $this->id,
-            'email' => $user_email,
-            'username' => $user_username,
-            'full_name' => $user_full_name,
+            'email' => $user_email ?? null,
+            'username' => $user_username ?? null,
+            'full_name' => $user_full_name ?? null,
             'address' => $this->address,
             'phone_number' => $this->phone_number,
             'birthdate' => $this->birthdate,
@@ -37,6 +37,6 @@ class ProfileResource extends BaseResource
 
     protected function message()
     {
-        return "Profile data retrieved successfully.";
+        return 'Profile data retrieved successfully.';
     }
 }

@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use App\Models\Profile;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
 use Junges\Kafka\Contracts\ConsumerMessage;
 use Junges\Kafka\Contracts\MessageConsumer;
 use Junges\Kafka\Facades\Kafka;
@@ -33,7 +32,7 @@ class ConsumeKafkaMessages extends Command
         $this->info('Starting Kafka consumer...');
         $consumer = Kafka::consumer([config('kafka.topics.user_created.topic')])
             ->withBrokers(config('brokers'))
-            ->withConsumerGroupId(config('kafka.topics.user_created.topic') . '_profile')
+            ->withConsumerGroupId(config('kafka.topics.user_created.topic').'_profile')
             ->withAutoCommit()
             ->withHandler(function (ConsumerMessage $message, MessageConsumer $consumer) {
                 $user = $this->handleUser($message);
@@ -63,6 +62,5 @@ class ConsumeKafkaMessages extends Command
 
         Profile::create($profile);
 
-        return;
     }
 }
