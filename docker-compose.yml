@@ -7,11 +7,12 @@ services:
 #            - '${APP_PORT:-80}:80'
 #            - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
         healthcheck:
-            test: ["CMD", "curl", "-f", "http://localhost:80/api/health"]
+            test: ["CMD-SHELL", "php -m | grep rdkafka && curl -f http://localhost:80/api/health"]
             interval: 30s
             timeout: 10s
             retries: 3
         environment:
+            TZ: ${TZ}
             WWWUSER: '${WWWUSER}'
             LARAVEL_SAIL: 1
             XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
@@ -32,6 +33,7 @@ services:
         ports:
             - '${FORWARD_DB_PORT:-3306}:3306'
         environment:
+            TZ: ${TZ}
             MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
             MYSQL_ROOT_HOST: '%'
             MYSQL_DATABASE: '${DB_DATABASE}'
