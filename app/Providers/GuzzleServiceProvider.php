@@ -21,7 +21,7 @@ class GuzzleServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton(Client::class, function ($app) {
-            $stack = $this->getStack('gateway');
+            $stack = $this->getStack('profile');
 
             return new Client([
                 'handler' => $stack,
@@ -45,7 +45,7 @@ class GuzzleServiceProvider extends ServiceProvider
                 ];
                 $recordings['headers'] = $this->filterSensitiveHeaders($request->getHeaders(), $sensitiveKeys);
                 // Log the request details
-                Log::channel($channelName)->info('Gateway request: ', $recordings);
+                Log::channel($channelName)->info('Profile request: ', $recordings);
 
                 return $request;
             })
