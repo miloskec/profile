@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Profile;
+use App\Models\User;
 use Illuminate\Console\Command;
 use Junges\Kafka\Contracts\ConsumerMessage;
 use Junges\Kafka\Contracts\MessageConsumer;
@@ -47,7 +48,10 @@ class ConsumeKafkaMessages extends Command
     {
         $user = json_decode($message->getBody()['user'], true);
         $user['user_id'] = $user['id'];
+        // Unset user_id and is_admin keys because they are not needed for the User model and Profile model
+
         unset($user['id']);
+        unset($user['is_admin']);
 
         return $user;
     }
@@ -59,8 +63,7 @@ class ConsumeKafkaMessages extends Command
         $profile['phone_number'] = fake()->phoneNumber();
         $profile['birthdate'] = fake()->date();
         $profile['bio'] = fake()->sentence();
-
-        Profile::create($profile);
-
+        
+        User::create($user)->profile()->create($profile);
     }
 }

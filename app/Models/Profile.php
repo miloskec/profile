@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 /**
  * @property int $id
@@ -18,7 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Profile extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     protected $fillable = [
         'user_id',
@@ -28,4 +30,21 @@ class Profile extends Model
         'profile_picture',
         'bio',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the activity log options for the model.
+     */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logAll() // Logs all attributes
+            ->logOnlyDirty()
+            ->useLogName('profile')
+            ->setDescriptionForEvent(fn (string $eventName) => "Profile has been {$eventName}");
+    }
 }

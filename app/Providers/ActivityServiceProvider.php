@@ -15,12 +15,12 @@ class ActivityServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Log::channel('profile')->info('Header:' . Request::instance()->header('X-User-Email'));
-
         Activity::saving(function (Activity $activity) {
             $request = Request::instance();
-            if ($request->header('X-User-Email')) {
-                $activity->causedBy($this->getUserFromEmail($request->header('X-User-Email')));
+            
+            $user = $request->attributes->get('authenticated_user');
+            if ($user) {
+                $activity->causedBy($user);
             }
 
             if (isset($activity->properties['attributes']['password'])) {
@@ -36,10 +36,5 @@ class ActivityServiceProvider extends ServiceProvider
             ]);
             //...
         });
-    }
-
-    protected function getUserFromEmail($email)
-    {
-        return User::where('email', $email)->first();
     }
 }

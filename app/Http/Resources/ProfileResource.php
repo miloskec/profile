@@ -27,17 +27,11 @@ class ProfileResource extends BaseResource
      */
     public function toArray(Request $request): array
     {
-        // Get user data
-        $userData = $this->user ? $this->user : $request->user;
-
-        // Extract user data with prefix
-        extract($userData, EXTR_PREFIX_ALL, 'user');
-
         return [
             'id' => $this->id,
-            'email' => $user_email ?? null,
-            'username' => $user_username ?? null,
-            'full_name' => $user_full_name ?? null,
+            'email' => $this->userData['email']?? $this->user->email,
+            'username' => $this->userData['username']?? $this->user->username,
+            'full_name' => $this->userData['full_name']?? $this->user->full_name,
             'address' => $this->address,
             'phone_number' => $this->phone_number,
             'birthdate' => $this->birthdate,

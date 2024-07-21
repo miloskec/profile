@@ -14,18 +14,16 @@ class ProfileController extends Controller
 
     public function profile(ProfileRequest $request)
     {
-        return new ProfileResource($this->profileService->getProfile($request->user['id']));
+        return new ProfileResource($this->profileService->getProfile(auth()->user()));
     }
 
     public function getProfileById(ProfileRequest $request, int $userId)
     {
-        Log::channel('profile')->info($request->getUri());
         $response = $this->profileService->getUserByToken($request->bearerToken(), $userId);
-
         $userData = json_decode($response->getBody(), true)['data'];
-
-        $profile = $this->profileService->getProfile($userId)
-            ->setAttribute('user', $userData);
+        
+        $profile = $this->profileService->getProfileById($userId)
+            ->setAttribute('userData', $userData);
 
         return new ProfileResource($profile);
     }

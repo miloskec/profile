@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Middleware\ValidateEmailHeader;
+use App\Http\Middleware\TokenValidationMiddleware;
 use App\Providers\GuzzleServiceProvider;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -18,7 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
-            'validateEmailHeader' => ValidateEmailHeader::class,
+            'jwt.validate' => TokenValidationMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {})
