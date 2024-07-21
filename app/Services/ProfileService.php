@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Profile;
+use App\Models\User;
 use GuzzleHttp\Client;
 
 class ProfileService
@@ -21,7 +22,11 @@ class ProfileService
         ]);
     }
 
-    public function getProfile(int $userId): Profile
+    public function getProfile(User $user): Profile
+    {
+        return $user->profile;
+    }
+    public function getProfileById(int $userId): Profile
     {
         return Profile::where('user_id', $userId)->firstOrFail();
     }
