@@ -19,12 +19,12 @@ class TokenValidationMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         try {
-            if (!$user = JWTAuth::parseToken()->authenticate()) {
+            if (! $user = JWTAuth::parseToken()->authenticate()) {
                 throw new AuthenticationException('User not found!');
             }
         } catch (JWTException $e) {
             // If token is invalid, expired or not present
-            throw new AuthenticationException('Token is invalid: ' . $e->getMessage());
+            throw new AuthenticationException('Token is invalid: '.$e->getMessage());
         }
 
         // Add user to request attributes if further user-specific access control is required

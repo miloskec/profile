@@ -11,3 +11,4 @@
 %6|1721251779.259|FAIL|rdkafka#producer-2| [thrd:kafka:9092/bootstrap]: kafka:9092/1: Disconnected (after 62266050ms in state UP)
 %3|1721251779.259|ERROR|rdkafka#producer-2| [thrd:kafka:9092/bootstrap]: 1/1 brokers are down
 %4|1721293344.551|COMMITFAIL|rdkafka#consumer-1| [thrd:main]: Offset commit (unassigned partitions) failed for 1/1 partition(s) in join-state wait-unassign-to-complete: Broker: Unknown member: user_created_topic[0]@3(Broker: Unknown member)
+Starting Kafka consumer...

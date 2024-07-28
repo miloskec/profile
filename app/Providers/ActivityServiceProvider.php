@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\User;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
@@ -17,7 +16,7 @@ class ActivityServiceProvider extends ServiceProvider
     {
         Activity::saving(function (Activity $activity) {
             $request = Request::instance();
-            
+
             $user = $request->attributes->get('authenticated_user');
             if ($user) {
                 $activity->causedBy($user);

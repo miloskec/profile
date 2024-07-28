@@ -6,7 +6,6 @@ use App\Http\Requests\ProfileRequest;
 use App\Http\Resources\ProfileResource;
 use App\Services\ProfileService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class ProfileController extends Controller
 {
@@ -21,7 +20,7 @@ class ProfileController extends Controller
     {
         $response = $this->profileService->getUserByToken($request->bearerToken(), $userId);
         $userData = json_decode($response->getBody(), true)['data'];
-        
+
         $profile = $this->profileService->getProfileById($userId)
             ->setAttribute('userData', $userData);
 
