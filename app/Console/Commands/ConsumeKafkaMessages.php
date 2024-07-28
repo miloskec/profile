@@ -63,7 +63,7 @@ class ConsumeKafkaMessages extends Command
         $profile['phone_number'] = fake()->phoneNumber();
         $profile['birthdate'] = fake()->date();
         $profile['bio'] = fake()->sentence();
-        
+
         User::create($user)->profile()->create($profile);
     }
 }

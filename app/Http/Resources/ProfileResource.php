@@ -29,9 +29,9 @@ class ProfileResource extends BaseResource
     {
         return [
             'id' => $this->id,
-            'email' => $this->userData['email']?? $this->user->email,
-            'username' => $this->userData['username']?? $this->user->username,
-            'full_name' => $this->userData['full_name']?? $this->user->full_name,
+            'email' => $this->userData['email'] ?? $this->user->email,
+            'username' => $this->userData['username'] ?? $this->user->username,
+            'full_name' => $this->userData['full_name'] ?? $this->user->full_name,
             'address' => $this->address,
             'phone_number' => $this->phone_number,
             'birthdate' => $this->birthdate,

@@ -26,6 +26,7 @@ class ProfileService
     {
         return $user->profile;
     }
+
     public function getProfileById(int $userId): Profile
     {
         return Profile::where('user_id', $userId)->firstOrFail();
