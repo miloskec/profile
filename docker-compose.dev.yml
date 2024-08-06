@@ -1,6 +1,6 @@
 services:
     profile:
-        image: profile:latest
+        image: miloskec/profile:latest
         extra_hosts:
             - 'host.docker.internal:host-gateway'
         #   ports:
