@@ -17,6 +17,10 @@ spec:
         image: miloskec/profile:latest
         imagePullPolicy: Always
         env:
+        - name: AUTH_SERVICE_URL
+          value: "http://authentication-service.default/api"
+        - name: AUTHZ_SERVICE_URL
+          value: "http://authorization-service/api"
         - name: DB_HOST
           value: "mysql-profile-service"
         - name: DB_PORT
