@@ -15,6 +15,7 @@ spec:
       containers:
       - name: profile
         image: miloskec/profile:latest
+        imagePullPolicy: Always
         env:
         - name: DB_HOST
           value: "mysql-profile-service"
