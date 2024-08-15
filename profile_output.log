@@ -1,1 +1,19 @@
 Starting Kafka consumer...
+%6|1723646524.516|FAIL|rdkafka#consumer-1| [thrd:GroupCoordinator]: GroupCoordinator: 10.244.0.148:9092: Disconnected (after 5444963ms in state UP)
+%3|1723646524.516|ERROR|rdkafka#consumer-1| [thrd:app]: rdkafka#consumer-1: GroupCoordinator: 10.244.0.148:9092: Disconnected (after 5444963ms in state UP)
+%3|1723646524.516|FAIL|rdkafka#consumer-1| [thrd:GroupCoordinator]: GroupCoordinator: 10.244.0.148:9092: Connect to ipv4#10.244.0.148:9092 failed: Connection refused (after 0ms in state CONNECT)
+%3|1723646524.516|ERROR|rdkafka#consumer-1| [thrd:app]: rdkafka#consumer-1: GroupCoordinator: 10.244.0.148:9092: Connect to ipv4#10.244.0.148:9092 failed: Connection refused (after 0ms in state CONNECT)
+%4|1723646524.516|FAIL|rdkafka#consumer-1| [thrd:10.244.0.148:9092/1]: 10.244.0.148:9092/1: Disconnected (after 5441959ms in state UP)
+%6|1723646524.516|FAIL|rdkafka#producer-2| [thrd:kafka-service:9092/bootstrap]: kafka-service:9092/bootstrap: Disconnected (after 5444965ms in state UP)
+%3|1723646524.517|ERROR|rdkafka#consumer-1| [thrd:10.244.0.148:9092/1]: 3/3 brokers are down
+%3|1723646524.517|ERROR|rdkafka#consumer-1| [thrd:app]: rdkafka#consumer-1: 10.244.0.148:9092/1: Disconnected (after 5441959ms in state UP)
+%3|1723646524.517|FAIL|rdkafka#consumer-1| [thrd:10.244.0.148:9092/1]: 10.244.0.148:9092/1: Connect to ipv4#10.244.0.148:9092 failed: Connection refused (after 0ms in state CONNECT)
+%3|1723646524.517|ERROR|rdkafka#consumer-1| [thrd:app]: rdkafka#consumer-1: 10.244.0.148:9092/1: Connect to ipv4#10.244.0.148:9092 failed: Connection refused (after 0ms in state CONNECT)
+%3|1723646524.707|FAIL|rdkafka#consumer-1| [thrd:10.244.0.148:9092/1]: 10.244.0.148:9092/1: Connect to ipv4#10.244.0.148:9092 failed: Connection refused (after 0ms in state CONNECT, 1 identical error(s) suppressed)
+%3|1723646524.707|ERROR|rdkafka#consumer-1| [thrd:app]: rdkafka#consumer-1: 10.244.0.148:9092/1: Connect to ipv4#10.244.0.148:9092 failed: Connection refused (after 0ms in state CONNECT, 1 identical error(s) suppressed)
+%3|1723646524.714|FAIL|rdkafka#producer-2| [thrd:10.244.0.148:9092/1]: 10.244.0.148:9092/1: Connect to ipv4#10.244.0.148:9092 failed: Connection refused (after 0ms in state CONNECT)
+%3|1723646524.714|ERROR|rdkafka#producer-2| [thrd:10.244.0.148:9092/1]: 2/2 brokers are down
+%3|1723646524.817|FAIL|rdkafka#consumer-1| [thrd:GroupCoordinator]: GroupCoordinator: 10.244.0.148:9092: Connect to ipv4#10.244.0.148:9092 failed: Connection refused (after 0ms in state CONNECT, 1 identical error(s) suppressed)
+%3|1723646524.817|ERROR|rdkafka#consumer-1| [thrd:app]: rdkafka#consumer-1: GroupCoordinator: 10.244.0.148:9092: Connect to ipv4#10.244.0.148:9092 failed: Connection refused (after 0ms in state CONNECT, 1 identical error(s) suppressed)
+%3|1723646526.714|FAIL|rdkafka#producer-2| [thrd:10.244.0.148:9092/1]: 10.244.0.148:9092/1: Connect to ipv4#10.244.0.148:9092 failed: Connection refused (after 0ms in state CONNECT, 1 identical error(s) suppressed)
+command terminated with exit code 137

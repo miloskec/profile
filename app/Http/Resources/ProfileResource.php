@@ -28,7 +28,6 @@ class ProfileResource extends BaseResource
     public function toArray(Request $request): array
     {
         return [
-            'authentication_service_user_id' => $this->userData['id'] ?? $this->user->id,
             'user_profile_id' => $this->user->id ?? null,
             'profile_id' => $this->id ?? null,
             'email' => $this->userData['email'] ?? $this->user->email,
