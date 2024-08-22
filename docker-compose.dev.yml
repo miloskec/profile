@@ -52,7 +52,7 @@ services:
         networks:
             - sail
         healthcheck:
-            test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+            test: ["CMD-SHELL", "mysql --user=${DB_USERNAME} --password=${DB_PASSWORD} -e 'SELECT 1'"]
             interval: 30s
             timeout: 10s
             retries: 3
