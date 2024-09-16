@@ -1,0 +1,137 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: profile-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: profile
+  template:
+    metadata:
+      labels:
+        app: profile
+    spec:
+      containers:
+      - name: profile
+        image: miloskec/profile:latest
+        imagePullPolicy: Always
+        env:
+        - name: AUTH_SERVICE_URL
+          value: "http://authentication-service.default/api"
+        - name: AUTHZ_SERVICE_URL
+          value: "http://authorization-service/api"
+        - name: DB_HOST
+          value: "mysql-profile-service"
+        - name: DB_PORT
+          value: "3306"
+        - name: DB_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: MYSQL_DATABASE
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: MYSQL_USER
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: MYSQL_PASSWORD
+        - name: JWT_TTL
+          value: "600"
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: app-profile-storage-logs
+          mountPath: /var/www/html/storage/logs
+        - name: app-profile-logs
+          mountPath: /var/www/html/logs
+      volumes:
+      - name: app-profile-storage-logs
+        persistentVolumeClaim:
+          claimName: app-profile-pslc
+      - name: app-profile-logs
+        persistentVolumeClaim:
+          claimName: app-profile-plc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: profile-service
+spec:
+  type: ClusterIP
+  selector:
+    app: profile
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: app-profile-storage-logs
+  labels:
+    type: app-profile-storage-logs
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+  - ReadWriteOnce
+  volumeMode: Filesystem
+  persistentVolumeReclaimPolicy: Delete # Change to Retain
+  storageClassName: standard
+  hostPath:
+    path: /mnt/sprofilelogs
+    type: DirectoryOrCreate
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: app-profile-pslc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: standard
+  selector:
+    matchLabels:
+      type: app-profile-storage-logs
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: app-profile-logs
+  labels:
+    type: app-profile-logs
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+  - ReadWriteOnce
+  volumeMode: Filesystem
+  persistentVolumeReclaimPolicy: Delete # Change to Retain
+  storageClassName: standard
+  hostPath:
+    path: /mnt/profilelogs
+    type: DirectoryOrCreate
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: app-profile-plc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: standard
+  selector:
+    matchLabels:
+      type: app-profile-logs

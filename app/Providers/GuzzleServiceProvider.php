@@ -34,7 +34,7 @@ class GuzzleServiceProvider extends ServiceProvider
 
     private function getStack($channelName)
     {
-        $sensitiveKeys = ['username', 'password', 'grant_type', 'refresh_token', 'api_key', 'authorization', 'Authorization', 'x-api-key', 'x-api-secret', 'x-api-version'];
+        $sensitiveKeys = ['username', 'token', 'password', 'grant_type', 'refresh_token', 'api_key', 'authorization', 'Authorization', 'x-api-key', 'x-api-secret', 'x-api-version'];
         $gatewayStack = HandlerStack::create();
         $gatewayStack->push(
             Middleware::mapRequest(function (RequestInterface $request) use ($channelName, $sensitiveKeys) {
@@ -53,7 +53,7 @@ class GuzzleServiceProvider extends ServiceProvider
         $gatewayStack->push(
             Middleware::mapResponse(function (ResponseInterface $response) use ($channelName) {
                 // Log the response details
-                Log::channel($channelName)->info('Service response: '.$response->getStatusCode(), [
+                Log::channel($channelName)->info('Service response: ' . $response->getStatusCode(), [
                     'headers' => $response->getHeaders(),
                     'body' => $response->getBody(),
                 ]);
