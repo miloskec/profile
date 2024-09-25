@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Profile;
+use App\Models\User;
 use GuzzleHttp\Client;
 
 class ProfileService
@@ -17,11 +18,16 @@ class ProfileService
     public function getUserByToken(string $token, int $userId)
     {
         return $this->client->post("{$this->authServiceUrl}/get-user-by-id-and-verify-jwt", [
-            'json' => ['token' => $token, 'user_id' => $userId]
+            'json' => ['token' => $token, 'user_id' => $userId],
         ]);
     }
 
-    public function getProfile(string $userId): Profile
+    public function getProfile(User $user): Profile
+    {
+        return $user->profile;
+    }
+
+    public function getProfileById(int $userId): Profile
     {
         return Profile::where('user_id', $userId)->firstOrFail();
     }

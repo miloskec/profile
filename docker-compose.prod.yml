@@ -1,22 +1,28 @@
 services:
     profile:
-        image: sail-8.3/app
+        image: profile:latest
         extra_hosts:
             - 'host.docker.internal:host-gateway'
-#        ports:
-#            - '${APP_PORT:-80}:80'
-#            - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
+        #   ports:
+        #        - '${APP_PORT:-80}:80'
+        #        - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
+        healthcheck:
+            test: [ "CMD", "curl", "-f", "http://localhost:80/api/health" ]
+            interval: 30s
+            timeout: 10s
+            retries: 3
         environment:
+            TZ: ${TZ}
             WWWUSER: '${WWWUSER}'
+            WWWGROUP: '${WWWGROUP}'
             LARAVEL_SAIL: 1
             XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
             XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
             IGNITION_LOCAL_SITES_PATH: '${PWD}'
-        volumes:
-            - '.:/var/www/html'
-            - ./initial-script.sh:/usr/local/bin/initial-script.sh
-            - ./entrypoint.sh:/usr/local/bin/entrypoint.sh
-        entrypoint: ["/usr/local/bin/entrypoint.sh"]
+            #CONFLUENT_REST_URL: 'https://pkc-v5590.asia-northeast2.gcp.confluent.cloud:443'  # Add the Confluent Cloud REST Proxy URL here
+            # Add any other required environment variables, such as authentication tokens
+            #CONFLUENT_CLOUD_API_KEY: 'VOJCMZC7AT4ZKRY3'
+            #CONFLUENT_CLOUD_API_SECRET: 'qBH2THFxkVSRQsFNdRY99o4QrqOBuRmr6rLbqEbNJj6gUDVQBamt/h3hraERbdez'
         tty: true
         networks:
             - sail
@@ -27,6 +33,7 @@ services:
         ports:
             - '${FORWARD_DB_PORT:-3306}:3306'
         environment:
+            TZ: ${TZ}
             MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
             MYSQL_ROOT_HOST: '%'
             MYSQL_DATABASE: '${DB_DATABASE}'
@@ -35,17 +42,14 @@ services:
             MYSQL_ALLOW_EMPTY_PASSWORD: 1
         volumes:
             - 'sail-mysql-profile:/var/lib/mysql'
-            - './vendor/laravel/sail/database/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
+            - './docker/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
         networks:
             - sail
         healthcheck:
-            test:
-                - CMD
-                - mysqladmin
-                - ping
-                - '-p${DB_PASSWORD}'
+            test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+            interval: 30s
+            timeout: 10s
             retries: 3
-            timeout: 5s
 networks:
     sail:
         external: true
