@@ -24,7 +24,7 @@ class ProfileRequest extends FormRequest
     {
         return [
             'user' => 'required|array',
-            'user.id' => 'required|exists:profiles,user_id',
+            'user.id' => 'required|exists:users,user_id',
         ];
     }
 }
