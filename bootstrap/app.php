@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\TokenValidationMiddleware;
 use App\Providers\GuzzleServiceProvider;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -11,10 +12,14 @@ return Application::configure(basePath: dirname(__DIR__))
         // Other Service Providers
     ])
     ->withRouting(
-        api: __DIR__ . '/../routes/api.php',
-        commands: __DIR__ . '/../routes/console.php',
+        api: __DIR__.'/../routes/api.php',
+        commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
-    ->withMiddleware(function (Middleware $middleware) {})
+    ->withMiddleware(function (Middleware $middleware) {
+        $middleware->alias([
+            'jwt.validate' => TokenValidationMiddleware::class,
+        ]);
+    })
     ->withExceptions(function (Exceptions $exceptions) {})
     ->create();

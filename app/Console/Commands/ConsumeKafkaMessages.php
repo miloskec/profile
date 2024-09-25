@@ -3,8 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Models\Profile;
+use App\Models\User;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
 use Junges\Kafka\Contracts\ConsumerMessage;
 use Junges\Kafka\Contracts\MessageConsumer;
 use Junges\Kafka\Facades\Kafka;
@@ -33,7 +33,7 @@ class ConsumeKafkaMessages extends Command
         $this->info('Starting Kafka consumer...');
         $consumer = Kafka::consumer([config('kafka.topics.user_created.topic')])
             ->withBrokers(config('brokers'))
-            ->withConsumerGroupId(config('kafka.topics.user_created.topic') . '_profile')
+            ->withConsumerGroupId(config('kafka.topics.user_created.topic').'_profile')
             ->withAutoCommit()
             ->withHandler(function (ConsumerMessage $message, MessageConsumer $consumer) {
                 $user = $this->handleUser($message);
@@ -48,7 +48,10 @@ class ConsumeKafkaMessages extends Command
     {
         $user = json_decode($message->getBody()['user'], true);
         $user['user_id'] = $user['id'];
+        // Unset user_id and is_admin keys because they are not needed for the User model and Profile model
+
         unset($user['id']);
+        unset($user['is_admin']);
 
         return $user;
     }
@@ -61,8 +64,6 @@ class ConsumeKafkaMessages extends Command
         $profile['birthdate'] = fake()->date();
         $profile['bio'] = fake()->sentence();
 
-        Profile::create($profile);
-
-        return;
+        User::create($user)->profile()->create($profile);
     }
 }
