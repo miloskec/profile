@@ -13,18 +13,7 @@ return new class extends Migration
     {
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
-            /**
-             * THIS SHOULD BE INCLUDED IN THE USER MODEL EVEN AS REDUNDANT FIELDS
-             * IN THAT CASE WE DONT NEED TO MAKE EXTRA REQUEST(S) TO THE AUTH* SERVICE
-             * FOR EXAMPLE: LIST OF PROFILES AND GETTING DETAILS ONE BY ONE...
-             * 
-             * $table->string('username');
-             * $table->string('full_name');
-             * $table->string('email')->unique();
-             * 
-             * BUT IN OUR CASE WE WILL USE REQUESTS TO THE AUTH* SERVICE TO GET THE USER DETAILS
-            */
-            $table->bigInteger('user_id')->unsigned();
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
             $table->string('address', 255)->nullable();
             $table->string('phone_number', 35)->nullable();
             $table->date('birthdate')->nullable();

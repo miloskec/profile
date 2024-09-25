@@ -4,6 +4,20 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 
+/**
+ * @property int $id
+ * @property string $email
+ * @property string $username
+ * @property string $full_name
+ * @property string $address
+ * @property string $phone_number
+ * @property string $birthdate
+ * @property string $profile_picture
+ * @property string $bio
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property \App\Models\User|null $user
+ */
 class ProfileResource extends BaseResource
 {
     /**
@@ -13,17 +27,12 @@ class ProfileResource extends BaseResource
      */
     public function toArray(Request $request): array
     {
-        // Get user data
-        $userData = $this->user ? $this->user : $request->user;
-
-        // Extract user data with prefix
-        extract($userData, EXTR_PREFIX_ALL, 'user');
-
         return [
-            'id' => $this->id,
-            'email' => $user_email,
-            'username' => $user_username,
-            'full_name' => $user_full_name,
+            'user_profile_id' => $this->user->id ?? null,
+            'profile_id' => $this->id ?? null,
+            'email' => $this->userData['email'] ?? $this->user->email,
+            'username' => $this->userData['username'] ?? $this->user->username,
+            'full_name' => $this->userData['full_name'] ?? $this->user->full_name,
             'address' => $this->address,
             'phone_number' => $this->phone_number,
             'birthdate' => $this->birthdate,
@@ -37,6 +46,6 @@ class ProfileResource extends BaseResource
 
     protected function message()
     {
-        return "Profile data retrieved successfully.";
+        return 'Profile data retrieved successfully.';
     }
 }
